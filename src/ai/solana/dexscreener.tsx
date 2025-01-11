@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 import { ExternalLink } from 'lucide-react';
 import { z } from 'zod';

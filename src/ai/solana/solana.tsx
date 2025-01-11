@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { AlertCircle, ArrowRightLeft, ExternalLink } from 'lucide-react';

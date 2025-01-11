@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Logo from '@/components/ui/home/logo';
 import { AnimatedBeam } from './animated-beam';
 import { Circle } from './circle';

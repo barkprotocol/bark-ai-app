@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 import { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
@@ -257,7 +257,7 @@ function ChatMessage({
   );
 
   return (
-    <div
+    (<div
       className={cn(
         'flex w-full items-start gap-3',
         isUser ? 'flex-row-reverse' : 'flex-row',
@@ -273,7 +273,6 @@ function ChatMessage({
       ) : !isUser ? (
         <div className="w-8" aria-hidden="true" />
       ) : null}
-
       <div
         className={cn(
           'relative flex max-w-[85%] flex-col gap-2',
@@ -363,7 +362,7 @@ function ChatMessage({
           <MessageToolInvocations toolInvocations={message.toolInvocations} />
         )}
       </div>
-    </div>
+    </div>)
   );
 }
 

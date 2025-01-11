@@ -1,7 +1,7 @@
 'use client';
 
-import type { ImageProps } from 'next/image';
-import Image from 'next/image';
+import type { ImageProps } from "next/legacy/image";
+import Image from "next/legacy/image";
 
 import { cn } from '@/lib/utils';
 
