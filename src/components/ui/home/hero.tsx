@@ -29,6 +29,7 @@ const Hero = () => {
       try {
         // Initialize Solana connection
         const solanaRpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('mainnet-beta');
+        console.log('Solana RPC URL:', solanaRpcUrl); // Log the URL
         const newConnection = new Connection(solanaRpcUrl, 'confirmed');
         
         // Verify connection
@@ -46,9 +47,12 @@ const Hero = () => {
   const handleLogin = async () => {
     try {
       // Log in using Privy
+      console.log('Attempting login...'); // Debug log
       await login();
       console.log('Login successful');
+      
       // After successful login, route to the next page
+      console.log('Routing to /home...');
       router.push('/home');
     } catch (error) {
       console.error('Login failed:', error);

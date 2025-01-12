@@ -2,17 +2,27 @@
 
 import { FC, useState } from 'react';
 import Link from 'next/link';
-import classNames from 'classnames';
-import { usePrivy } from '@privy-io/react-auth';
 import { useRouter } from 'next/navigation';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
+import classNames from 'classnames';
 
 const Navbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { login, user, logout } = usePrivy();
+  const { connect, disconnect, connected } = useWallet();
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
+  // Toggle mobile menu visibility
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+  };
+
+  // Toggle theme between light and dark
+  const toggleTheme = () => {
+    if (theme === 'light') setTheme('dark');
+    else setTheme('light');
   };
 
   const renderNavLinks = () => (
@@ -23,7 +33,7 @@ const Navbar: FC = () => {
       <Link href="/about" className="hover:text-gray-400 transition">
         About
       </Link>
-      <Link href="/docs" className="hover:text-gray-400 transition">
+      <Link href="https://docs.barkprotocol.net" className="hover:text-gray-400 transition">
         Docs
       </Link>
     </>
@@ -44,17 +54,17 @@ const Navbar: FC = () => {
           {renderNavLinks()}
         </div>
         <div className="px-6 py-4">
-          {user ? (
+          {connected ? (
             <button
-              onClick={logout}
-              className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+              onClick={handleLogout}
+              className="w-full px-4 py-2 rounded-md bg-primary text-black hover:bg-primary/80 transition"
             >
-              Logout
+              Disconnect Wallet
             </button>
           ) : (
             <button
-              onClick={login}
-              className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+              onClick={handleLogin}
+              className="w-full px-4 py-2 rounded-md bg-primary text-black hover:bg-primary/80 transition"
             >
               Connect Wallet
             </button>
@@ -66,21 +76,20 @@ const Navbar: FC = () => {
 
   const handleLogin = async () => {
     try {
-      await login();
-      // After login, redirect to the dashboard or another page
-      router.push('/home');
+      await connect();
+      router.push('/home'); // Redirect after login
     } catch (error) {
-      console.error('Login failed', error);
+      console.error('Wallet connection failed', error);
     }
   };
 
   const handleLogout = () => {
-    logout();
-    router.push('/');
+    disconnect();
+    router.push('/'); // Redirect after disconnect
   };
 
   return (
-    <nav className="bg-white text-gray-950 shadow-md">
+    <nav className={`bg-${theme === 'light' ? 'white' : 'gray-1000'} text-${theme === 'light' ? 'black' : 'white'} shadow-md`}>
       <div className="container mx-auto flex justify-between items-center px-4 py-4">
         {/* Logo Section */}
         <div className="flex items-center">
@@ -90,7 +99,7 @@ const Navbar: FC = () => {
               alt="BARK AI Logo"
               className="w-10 h-10 mr-2"
             />
-            <span className="text-xl font-semibold text-black">
+            <span className={`text-xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`}>
               BARK <span className="font-bold">AI</span>
             </span>
           </Link>
@@ -99,29 +108,40 @@ const Navbar: FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           {renderNavLinks()}
-          {user ? (
+          {connected ? (
             <button
               onClick={handleLogout}
-              className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
-              aria-label="Logout"
+              className={`px-4 py-2 rounded-md bg-primary text-${theme === 'light' ? 'black' : 'white'} hover:bg-primary/80 transition`}
             >
-              Logout
+              Disconnect Wallet
             </button>
           ) : (
             <button
               onClick={handleLogin}
-              className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
-              aria-label="Login"
+              className={`px-4 py-2 rounded-md bg-primary text-${theme === 'light' ? 'white' : 'black'} hover:bg-primary/80 transition`}
             >
-              Login
+              Connect Wallet
             </button>
           )}
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className={`flex items-center justify-center w-10 h-10 rounded-full bg-primary text-${theme === 'light' ? 'black' : 'white'} hover:bg-primary/80 transition`}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'light' ? (
+              <Sun className="h-5 w-5 text-white" />
+            ) : (
+              <Moon className="h-5 w-5 text-black" />
+            )}
+          </button>
         </div>
 
         {/* Mobile Hamburger Menu */}
         <div className="md:hidden">
           <button
-            className="text-gray-950 hover:text-gray-400"
+            className={`text-${theme === 'light' ? 'black' : 'white'} hover:text-gray-400`}
             aria-expanded={isMenuOpen}
             aria-label="Toggle navigation menu"
             onClick={toggleMenu}
