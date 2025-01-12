@@ -45,11 +45,7 @@ export function AccountContent() {
   const { reauthorize } = useOAuthTokens({
     onOAuthTokenGrant: (tokens: OAuthTokens, { user }: { user: User }) => {
       // Grant Discord role
-      return
-        // Grant Discord role
-        // Grant Discord role
-        // Grant Discord role
-        handleGrantDiscordRole(tokens.accessToken);
+      return handleGrantDiscordRole(tokens.accessToken);
     },
   });
 
@@ -264,19 +260,15 @@ export function AccountContent() {
                         <svg
                           viewBox="0 0 24 24"
                           className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
+                          fill="currentColor"
                         >
-                          <path d="M20 8.585l-7.062-7.062A9.958 9.958 0 0012 0a9.961 9.961 0 00-6.938 2.522L4 4l4.522 4.521c-.023.23-.037.463-.037.708 0 1.032.244 2.008.686 2.876l-2.333 2.332c-.801-1.392-1.26-3.016-1.26-4.632a9.931 9.931 0 012.624-6.615l5.468 5.467c.76-.255 1.565-.45 2.392-.57l3.129 3.129a9.99 9.99 0 01-2.888 2.43L8 15.999c-.142-.238-.333-.524-.537-.69l5.535-5.535a9.869 9.869 0 01-.492-2.728c0-.095.043-.193.043-.288 0-2.757-2.244-5-5-5z" />
+                          <path d="M10.889 9.85c.269-.533.52-1.093.73-1.648l-2.49-.713c.232.37.437.754.633 1.14l1.715.548z" />
                         </svg>
                       </div>
                       <div>
                         <p className="text-sm font-medium">Discord</p>
                         <p className="text-xs text-muted-foreground">
-                          {userData.discord
-                            ? `@${userData.discord.username}`
-                            : 'Not connected'}
+                          {userData.discord ? `@${userData.discord.username}` : 'Not connected'}
                         </p>
                       </div>
                     </div>
@@ -302,49 +294,27 @@ export function AccountContent() {
             </Card>
           </section>
 
-          {/* Wallet Information Section */}
+          {/* Wallets Section */}
           <section className="space-y-4">
             <h2 className="text-sm font-medium text-muted-foreground">
-              Wallet Information
+              Wallets
             </h2>
 
-            <Card className="bg-sidebar">
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  {wallets.length > 0 ? (
-                    wallets.map((wallet: EmbeddedWallet, index) => (
-                      <WalletCard key={index} wallet={wallet} />
-                    ))
-                  ) : (
-                    <div className="text-xs text-muted-foreground">
-                      No wallets connected.
-                    </div>
-                  )}
+            <div className="grid gap-6 sm:grid-cols-2">
+              {wallets.length > 0 ? (
+                wallets.map((wallet: EmbeddedWallet, index: number) => (
+                  <WalletCard
+                    key={index}
+                    wallet={wallet}
+                    showBalance={false}
+                  />
+                ))
+              ) : (
+                <div className="w-full text-center text-sm text-muted-foreground">
+                  No wallets connected.
                 </div>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* Additional Actions Section */}
-          <section className="space-y-4">
-            <h2 className="text-sm font-medium text-muted-foreground">
-              Actions
-            </h2>
-
-            <Card className="bg-sidebar">
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  {/* Add any additional actions you want to show here */}
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => router.push('/some-action')}
-                  >
-                    Example Action
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+              )}
+            </div>
           </section>
         </div>
       </div>

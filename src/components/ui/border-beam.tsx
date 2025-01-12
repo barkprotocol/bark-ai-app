@@ -25,7 +25,7 @@ export const BorderBeam = ({
     <div
       style={
         {
-          '--size-px': size, // Renamed to 'size-px' for clarity
+          '--size-px': size,
           '--duration': duration,
           '--anchor': anchor,
           '--border-width': borderWidth,

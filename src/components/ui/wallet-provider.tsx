@@ -17,26 +17,22 @@ interface WalletProviderProps {
 }
 
 const WalletProvider: FC<WalletProviderProps> = ({ children }) => {
-  const { user } = usePrivy(); // Access Privy user context if necessary
+  const { user } = usePrivy(); // Access Privy user context
 
   // Dynamic selection of network (Mainnet/Devnet)
   const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || 'mainnet-beta';
   const endpoint =
-    network === 'mainnet'
+    network === 'mainnet-beta'
       ? 'https://api.mainnet-beta.solana.com'
       : 'https://api.devnet.solana.com';
 
   return (
     <ConnectionProvider endpoint={endpoint}>
       <SolanaWalletProvider wallets={wallets} autoConnect>
-        {/* Only render the children if the user is authenticated */}
         {user ? (
-          <div className="authenticated">
-            {children}
-          </div>
+          <>{children}</> // Only render children if the user is authenticated
         ) : (
           <div className="unauthenticated">
-            {/* Optionally, show a login prompt or message */}
             <p>Please log in to continue</p>
           </div>
         )}

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -13,11 +13,14 @@ const Navbar: FC = () => {
   const { connect, disconnect, connected } = useWallet();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Toggle mobile menu visibility
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   // Toggle theme between light and dark
   const toggleTheme = () => {
@@ -25,6 +28,7 @@ const Navbar: FC = () => {
     else setTheme('light');
   };
 
+  // Render navigation links for both desktop and mobile
   const renderNavLinks = () => (
     <>
       <Link href="/" className="hover:text-gray-400 transition">
@@ -39,20 +43,16 @@ const Navbar: FC = () => {
     </>
   );
 
+  // Mobile menu rendering
   const renderMobileMenu = () => (
     <div
-      className={classNames(
-        'md:hidden transition-all duration-300 ease-in-out overflow-hidden',
-        {
-          'max-h-96': isMenuOpen,
-          'max-h-0': !isMenuOpen,
-        }
-      )}
+      className={classNames('md:hidden transition-all duration-300 ease-in-out overflow-hidden', {
+        'max-h-96': isMenuOpen,
+        'max-h-0': !isMenuOpen,
+      })}
     >
       <div className="bg-white shadow-lg mt-2">
-        <div className="flex flex-col space-y-4 px-6 py-4">
-          {renderNavLinks()}
-        </div>
+        <div className="flex flex-col space-y-4 px-6 py-4">{renderNavLinks()}</div>
         <div className="px-6 py-4">
           {connected ? (
             <button
@@ -74,22 +74,32 @@ const Navbar: FC = () => {
     </div>
   );
 
+  // Handle wallet login
   const handleLogin = async () => {
     try {
       await connect();
-      router.push('/home'); // Redirect after login
+      router.push('/home');
     } catch (error) {
       console.error('Wallet connection failed', error);
     }
   };
 
+  // Handle wallet logout
   const handleLogout = () => {
     disconnect();
-    router.push('/'); // Redirect after disconnect
+    router.push('/');
   };
 
+  // Prevent SSR content mismatch
+  if (!isClient) return null;
+
   return (
-    <nav className={`bg-${theme === 'light' ? 'white' : 'gray-1000'} text-${theme === 'light' ? 'black' : 'white'} shadow-md`}>
+    <nav
+      className={classNames('shadow-md', {
+        'bg-white text-black': theme === 'light',
+        'bg-gray-1000 text-white': theme === 'dark',
+      })}
+    >
       <div className="container mx-auto flex justify-between items-center px-4 py-4">
         {/* Logo Section */}
         <div className="flex items-center">
