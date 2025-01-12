@@ -1,7 +1,10 @@
 {
-  "name": "bark-ai-app",
+  "name": "bark-ai-dapp",
+  "description": "BARK AI is a full-stack application that brings together the power of LLM models and Solana blockchain technology.",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": "BARK Protocol",
   "scripts": {
     "vercel-build": "pnpm npx prisma generate && next build",
     "dev": "NODE_NO_WARNINGS=1 next dev --turbopack",
@@ -23,7 +26,6 @@
     "@dialectlabs/web3": "^0.3.2",
     "@jup-ag/core": "4.0.0-beta.21",
     "@mem0/vercel-ai-provider": "^0.0.10",
-    "@metaplex-foundation/mpl-core": "^1.1.1",
     "@prisma/client": "6.1.0",
     "@privy-io/cross-app-connect": "^0.1.2",
     "@privy-io/react-auth": "^2.0.1",

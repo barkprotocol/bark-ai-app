@@ -154,12 +154,12 @@ export function useUser(): BarkUserInterface {
         module: 'useUser',
         level: 'info',
       });
-      const neurUser = await fetchBarkUserData(privyUser as PrivyUser);
-      debugLog('Merged BarkUser data', neurUser, {
+      const barkUser = await fetchBarkUserData(privyUser as PrivyUser);
+      debugLog('Merged BarkUser data', barkUser, {
         module: 'useUser',
         level: 'info',
       });
-      return neurUser;
+      return barkUser;
     }
     debugLog('No valid BarkUser data retrieved', null, {
       module: 'useUser',
@@ -169,7 +169,7 @@ export function useUser(): BarkUserInterface {
   }, [ready, privyUser]);
 
   // Use SWR for data fetching and state management
-  const { data: neurUser, isValidating: swrLoading } = useSWR<BarkUser | null>(
+  const { data: barkUser, isValidating: swrLoading } = useSWR<BarkUser | null>(
     swrKey,
     fetcher,
     {
@@ -179,15 +179,15 @@ export function useUser(): BarkUserInterface {
     },
   );
 
-  debugLog('Current BarkUser data', neurUser, { module: 'useUser' });
+  debugLog('Current BarkUser data', barkUser, { module: 'useUser' });
   debugLog('SWR validation status', swrLoading, { module: 'useUser' });
 
   // Update cache when new user data is fetched
   useEffect(() => {
-    if (neurUser) {
-      saveToCache(neurUser);
+    if (barkUser) {
+      saveToCache(barkUser);
     }
-  }, [neurUser]);
+  }, [barkUser]);
 
   const isLoading = swrLoading && !initialCachedUser;
   debugLog('Loading state', { isLoading }, { module: 'useUser' });
@@ -223,8 +223,8 @@ export function useUser(): BarkUserInterface {
 
   return {
     ...privyRest,
-    isLoading: isLoading || neurUser == null,
-    user: neurUser || null,
+    isLoading: isLoading || barkUser == null,
+    user: barkUser || null,
     logout: extendedLogout,
   };
 }

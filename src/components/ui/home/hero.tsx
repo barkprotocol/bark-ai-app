@@ -1,8 +1,6 @@
-'use client';
-
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import { Button } from '@/components/ui/button';
 import AnimatedShinyText from '@/components/ui/animated-shiny-text';
 import BlurFade from '@/components/ui/blur-fade';
@@ -126,4 +124,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

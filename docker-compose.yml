@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: Dockerfile.local
       target: dev
-    container_name: "bark-ai-app"
+    container_name: "bark-ai-dapp"
     depends_on:
-      neur-db:
+      bark-db:
         condition: service_healthy
     expose:
       - "3000"
@@ -19,24 +19,24 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@neur-db:5432/neurdb
-      - DIRECT_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@neur-db:5432/neurdb
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@bark-db:5432/barkdb
+      - DIRECT_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@bark-db:5432/barkdb
     volumes:
       - .:/usr/src/app
       - root_node_modules:/usr/src/app/node_modules
       - webapp_next:/usr/src/app/.next
 
-  neur-studio:
+  bark-studio:
     build:
       context: .
       dockerfile: Dockerfile.local
       target: dev
-    container_name: "neur-studio"
+    container_name: "bark-studio"
     depends_on:
-      neur-db:
+      bark-db:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@neur-db:5432/neurdb
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@bark-db:5432/barkdb
     expose:
       - "5555"
     ports:
@@ -48,9 +48,9 @@ services:
       - root_node_modules:/usr/src/app/node_modules
       - webapp_next:/usr/src/app/.next
 
-  neur-db:
+  bark-db:
     image: "postgres:15"
-    container_name: "neur-db"
+    container_name: "bark-db"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -62,9 +62,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "neur-db-data:/var/lib/postgresql/data"
+      - "bark-db-data:/var/lib/postgresql/data"
 
 volumes:
-  neur-db-data:
+  bark-db-data:
   root_node_modules:
   webapp_next:
