@@ -4,10 +4,12 @@ import { FC, useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { usePrivy } from '@privy-io/react-auth';
+import { useRouter } from 'next/navigation';
 
 const Navbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { login } = usePrivy();
+  const { login, isLoggedIn, logout, user } = usePrivy();
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -42,16 +44,40 @@ const Navbar: FC = () => {
           {renderNavLinks()}
         </div>
         <div className="px-6 py-4">
-          <button
-            onClick={login}
-            className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
-          >
-            Login
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={logout}
+              className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={login}
+              className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
+
+  const handleLogin = async () => {
+    try {
+      await login();
+      // After login, redirect to the dashboard or another page
+      router.push('/home');
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/'); // Redirect to homepage after logout
+  };
 
   return (
     <nav className="bg-white text-gray-950 shadow-md">
@@ -73,13 +99,23 @@ const Navbar: FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6">
           {renderNavLinks()}
-          <button
-            onClick={login}
-            className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
-            aria-label="Login"
-          >
-            Login
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+              aria-label="Logout"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={handleLogin}
+              className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+              aria-label="Login"
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Mobile Hamburger Menu */}
@@ -115,4 +151,3 @@ const Navbar: FC = () => {
 };
 
 export default Navbar;
-
