@@ -1,4 +1,4 @@
-import Logo from './ui/home/logo';
+import { Logo } from './ui/home/logo';
 
 export default function PageLoading() {
   return (

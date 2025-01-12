@@ -65,4 +65,13 @@ export const INTEGRATIONS: Integration[] = [
       secondary: '#181432', // White
     },
   },
+  {
+    icon: 'integrations/bark_protocol.svg',
+    label: 'SocialFi',
+    description: 'Discover real-world assets tokens',
+    theme: {
+      primary: '#010101', // Black
+      secondary: '#FFFFFF', // White
+    },
+  },
 ];

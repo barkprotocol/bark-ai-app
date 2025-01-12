@@ -1,29 +1,95 @@
 'use client';
 
-import { FC } from 'react';
-import Logo from './logo';
+import { FC, useState } from 'react';
 import Link from 'next/link';
+import classNames from 'classnames';
+import { usePrivy } from '@privy-io/react-auth';
 
 const Navbar: FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { login } = usePrivy();
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const renderNavLinks = () => (
+    <>
+      <Link href="/" className="hover:text-gray-400 transition">
+        Home
+      </Link>
+      <Link href="/about" className="hover:text-gray-400 transition">
+        About
+      </Link>
+      <Link href="/docs" className="hover:text-gray-400 transition">
+        Docs
+      </Link>
+    </>
+  );
+
+  const renderMobileMenu = () => (
+    <div
+      className={classNames(
+        'md:hidden transition-all duration-300 ease-in-out overflow-hidden',
+        {
+          'max-h-96': isMenuOpen,
+          'max-h-0': !isMenuOpen,
+        }
+      )}
+    >
+      <div className="bg-white shadow-lg mt-2">
+        <div className="flex flex-col space-y-4 px-6 py-4">
+          {renderNavLinks()}
+        </div>
+        <div className="px-6 py-4">
+          <button
+            onClick={login}
+            className="w-full px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <nav className="bg-white text-gray-950 py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
+    <nav className="bg-white text-gray-950 shadow-md">
+      <div className="container mx-auto flex justify-between items-center px-4 py-4">
+        {/* Logo Section */}
         <div className="flex items-center">
-          <Logo />
+          <Link href="/" className="flex items-center">
+            <img
+              src="https://ucarecdn.com/bbc74eca-8e0d-4147-8a66-6589a55ae8d0/bark.webp"
+              alt="BARK AI Logo"
+              className="w-10 h-10 mr-2"
+            />
+            <span className="text-xl font-semibold text-black">
+              BARK <span className="font-bold">AI</span>
+            </span>
+          </Link>
         </div>
 
-        {/* Navigation Links */}
-        <div className="space-x-6 hidden md:flex">
-          <Link href="/" className="hover:text-gray-400">Home</Link>
-          <Link href="/about" className="hover:text-gray-400">About</Link>
-          <Link href="/docs" className="hover:text-gray-400">Docs</Link>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6">
+          {renderNavLinks()}
+          <button
+            onClick={login}
+            className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/80 transition"
+            aria-label="Login"
+          >
+            Login
+          </button>
         </div>
 
-        {/* Mobile Menu (Hamburger) */}
+        {/* Mobile Hamburger Menu */}
         <div className="md:hidden">
-          <button className="text-white">
-            {/* Add hamburger icon (you can use a library like react-icons) */}
+          <button
+            className="text-gray-950 hover:text-gray-400"
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle navigation menu"
+            onClick={toggleMenu}
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -41,8 +107,12 @@ const Navbar: FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Mobile Dropdown Menu */}
+      {renderMobileMenu()}
     </nav>
   );
 };
 
 export default Navbar;
+

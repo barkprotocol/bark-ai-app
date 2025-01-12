@@ -7,7 +7,7 @@ import Image from "next/legacy/image";
 import { AnimatedBeam } from '@/components/ui/animated-beam';
 import { cn } from '@/lib/utils';
 
-import Logo from '../ui/home/logo';
+import { Logo } from '../ui/home/logo';
 
 const Icons = [
   'integrations/dexscreener.svg',

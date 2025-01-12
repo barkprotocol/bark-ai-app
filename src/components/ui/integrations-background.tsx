@@ -1,99 +1,169 @@
 'use client';
 
 import { useRef } from 'react';
-import Image from "next/legacy/image";
-import Logo from '@/components/ui/home/logo';
+import Image from 'next/image';
+import { Logo } from '@/components/ui/home/logo';
 import { AnimatedBeam } from './animated-beam';
 import { Circle } from './circle';
 
 export const IntegrationsBackground = () => {
-  // Refs to track individual circle elements for animation connections
   const containerRef = useRef<HTMLDivElement>(null);
-  const circleRefs = Array.from({ length: 7 }, () => useRef<HTMLDivElement>(null));
+  const div1Ref = useRef<HTMLDivElement>(null);
+  const div2Ref = useRef<HTMLDivElement>(null);
+  const div3Ref = useRef<HTMLDivElement>(null);
+  const div4Ref = useRef<HTMLDivElement>(null);
+  const div5Ref = useRef<HTMLDivElement>(null);
+  const div6Ref = useRef<HTMLDivElement>(null);
+  const div7Ref = useRef<HTMLDivElement>(null);
+  const div8Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div
       className="absolute inset-0 flex items-center justify-end pr-12"
       ref={containerRef}
     >
-      <div className="flex max-h-[180px] max-w-[300px] flex-col items-stretch justify-between gap-6">
-        {/* First row of circles */}
+      <div className="flex size-full max-h-[180px] max-w-[300px] flex-col items-stretch justify-between gap-6">
         <div className="flex flex-row items-center justify-between">
-          <Circle ref={circleRefs[0]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/dexscreener.svg" alt="DexScreener" width={24} height={24} />
+          <Circle
+            ref={div1Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/dexscreener.svg"
+              alt="DexScreener"
+              width={24}
+              height={24}
+            />
           </Circle>
-          <Circle ref={circleRefs[4]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/dialect.svg" alt="Dialect" width={24} height={24} />
+          <Circle
+            ref={div5Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/dialect.svg"
+              alt="Dialect"
+              width={24}
+              height={24}
+            />
           </Circle>
         </div>
-
-        {/* Second row of circles */}
         <div className="flex flex-row items-center justify-between">
-          <Circle ref={circleRefs[1]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/jupiter.svg" alt="Jupiter" width={24} height={24} />
+          <Circle
+            ref={div2Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/jupiter.svg"
+              alt="Jupiter"
+              width={24}
+              height={24}
+            />
           </Circle>
-          <Circle ref={circleRefs[3]} className="transition-transform hover:scale-110 size-14">
+          <Circle
+            ref={div4Ref}
+            className="size-14 transition-transform hover:scale-110"
+          >
             <div className="size-8">
               <Logo />
             </div>
           </Circle>
-          <Circle ref={circleRefs[5]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/magic_eden.svg" alt="Magic Eden" width={24} height={24} />
+          <Circle
+            ref={div6Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/magic_eden.svg"
+              alt="Magic Eden"
+              width={24}
+              height={24}
+            />
           </Circle>
         </div>
-
-        {/* Third row of circles */}
         <div className="flex flex-row items-center justify-between">
-          <Circle ref={circleRefs[2]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/pump_fun.svg" alt="Pump Fun" width={24} height={24} />
+          <Circle
+            ref={div3Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/pump_fun.svg"
+              alt="Pump Fun"
+              width={24}
+              height={24}
+            />
           </Circle>
-          <Circle ref={circleRefs[6]} className="transition-transform hover:scale-110">
-            <Image src="/integrations/defined_fi.svg" alt="Defined Fi" width={24} height={24} />
+          <Circle
+            ref={div7Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/defined_fi.svg"
+              alt="Defined Fi"
+              width={24}
+              height={24}
+            />
+          </Circle>
+        </div>
+        <div className="flex flex-row items-center justify-center">
+          <Circle
+            ref={div8Ref}
+            className="transition-transform hover:scale-110"
+          >
+            <Image
+              src="/integrations/bark_protocol.svg"
+              alt="Bark Protocol"
+              width={24}
+              height={24}
+            />
           </Circle>
         </div>
       </div>
 
-      {/* Animated connections between circles */}
+      {/* Animated Beams */}
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[0]}
-        toRef={circleRefs[3]}
+        fromRef={div1Ref}
+        toRef={div4Ref}
         curvature={-50}
         endYOffset={-8}
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[1]}
-        toRef={circleRefs[3]}
+        fromRef={div2Ref}
+        toRef={div4Ref}
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[2]}
-        toRef={circleRefs[3]}
+        fromRef={div3Ref}
+        toRef={div4Ref}
         curvature={50}
         endYOffset={8}
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[4]}
-        toRef={circleRefs[3]}
+        fromRef={div5Ref}
+        toRef={div4Ref}
         curvature={-50}
         endYOffset={-8}
         reverse
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[5]}
-        toRef={circleRefs[3]}
+        fromRef={div6Ref}
+        toRef={div4Ref}
         reverse
       />
       <AnimatedBeam
         containerRef={containerRef}
-        fromRef={circleRefs[6]}
-        toRef={circleRefs[3]}
+        fromRef={div7Ref}
+        toRef={div4Ref}
         curvature={50}
         endYOffset={8}
         reverse
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div8Ref}
+        toRef={div4Ref}
       />
     </div>
   );

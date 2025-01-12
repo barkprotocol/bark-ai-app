@@ -3,12 +3,13 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from "next/legacy/image";
-import { Button } from '../button';
+import { Button } from '@/components/ui/button';
 import AnimatedShinyText from '@/components/ui/animated-shiny-text';
 import BlurFade from '@/components/ui/blur-fade';
 import { BorderBeam } from '@/components/ui/border-beam';
+import { usePrivy } from '@privy-io/react-auth';
 
-const Hero = ({ handleLogin }: { handleLogin: () => void }) => {
+const Hero = () => {
   const productRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: productRef,
@@ -19,11 +20,17 @@ const Hero = ({ handleLogin }: { handleLogin: () => void }) => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 1]);
 
+  const { login } = usePrivy();
+
+  const handleLogin = () => {
+    login();
+  };
+
   return (
     <section
       className="relative pt-[5.75rem] bg-cover bg-center"
       style={{
-        backgroundImage: 'url("/background-image.jpg")', // Add your background image URL here
+        backgroundImage: 'url("https://ucarecdn.com/fcd1f906-c2d5-4c2b-9a57-f068f95cb24e/solanawhite.png")',
       }}
       ref={productRef}
     >
@@ -119,3 +126,4 @@ const Hero = ({ handleLogin }: { handleLogin: () => void }) => {
 };
 
 export default Hero;
+

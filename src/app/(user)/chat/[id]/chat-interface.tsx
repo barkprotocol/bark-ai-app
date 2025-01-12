@@ -21,7 +21,7 @@ import 'yet-another-react-lightbox/styles.css';
 
 import { getToolConfig } from '@/ai/providers';
 import { FloatingWallet } from '@/components/floating-wallet';
-import Logo from '@/components/ui/home/logo';
+import { Logo } from '@/components/ui/home/logo';
 import { ToolResult } from '@/components/message/tool-result';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
