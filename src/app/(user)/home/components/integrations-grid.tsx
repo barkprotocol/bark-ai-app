@@ -14,8 +14,7 @@ export function IntegrationsGrid() {
         <IntegrationCard
           key={item.label}
           item={item}
-          onClick={() => handleIntegrationClick(item.label)}
-        />
+          onClick={() => handleIntegrationClick(item.label)} index={0}        />
       ))}
     </div>
   );

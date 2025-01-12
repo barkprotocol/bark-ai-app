@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -78,30 +76,20 @@ const ExploreItems = [
     icon: Brain,
     external: false,
   },
-  // {
-  //     title: "Agents",
-  //     url: "/agents",
-  //     segment: "agents",
-  //     icon: Bot,
-  //     external: false,
-  // },
-  // {
-  //     title: "Automations",
-  //     url: "/automations",
-  //     segment: "automations",
-  //     icon: Workflow,
-  //     external: false,
-  // }
 ] as const;
 
 export function AppSidebar() {
   const pathname = usePathname();
 
+  // Check if pathname is not null or undefined
   const getIsActive = (itemSegment: string) => {
-    if (itemSegment === 'home') {
-      return pathname === '/home';
+    if (pathname) {
+      if (itemSegment === 'home') {
+        return pathname === '/home';
+      }
+      return pathname.startsWith(`/${itemSegment}`);
     }
-    return pathname.startsWith(`/${itemSegment}`);
+    return false; // Return false if pathname is null
   };
 
   return (

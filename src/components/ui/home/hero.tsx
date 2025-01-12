@@ -25,15 +25,29 @@ const Hero = () => {
   const [connection, setConnection] = useState<Connection | null>(null);
 
   useEffect(() => {
-    // Initialize Solana connection
-    const newConnection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
-    setConnection(newConnection);
+    const initializeConnection = async () => {
+      try {
+        // Initialize Solana connection
+        const solanaRpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('mainnet-beta');
+        const newConnection = new Connection(solanaRpcUrl, 'confirmed');
+        
+        // Verify connection
+        await newConnection.getVersion();
+        setConnection(newConnection);
+        console.log('Solana connection established');
+      } catch (error) {
+        console.error('Error establishing Solana connection:', error);
+      }
+    };
+
+    initializeConnection();
   }, []);
 
   const handleLogin = async () => {
     try {
       // Log in using Privy
       await login();
+      console.log('Login successful');
       // After successful login, route to the next page
       router.push('/home');
     } catch (error) {

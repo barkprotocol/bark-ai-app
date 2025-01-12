@@ -76,7 +76,7 @@ const Navbar: FC = () => {
 
   const handleLogout = () => {
     logout();
-    router.push('/');
+    router.push('/'); // Redirect to homepage after logout
   };
 
   return (
