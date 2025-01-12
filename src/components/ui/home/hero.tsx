@@ -1,11 +1,15 @@
-import { useRef } from 'react';
+'use client';
+
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from "next/image";
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import AnimatedShinyText from '@/components/ui/animated-shiny-text';
 import BlurFade from '@/components/ui/blur-fade';
 import { BorderBeam } from '@/components/ui/border-beam';
 import { usePrivy } from '@privy-io/react-auth';
+import { Connection, clusterApiUrl } from '@solana/web3.js';
+import { useRouter } from 'next/navigation';
 
 const Hero = () => {
   const productRef = useRef<HTMLDivElement>(null);
@@ -19,9 +23,24 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 1]);
 
   const { login } = usePrivy();
+  const router = useRouter();
+  const [connection, setConnection] = useState<Connection | null>(null);
 
-  const handleLogin = () => {
-    login();
+  useEffect(() => {
+    // Initialize Solana connection
+    const newConnection = new Connection(clusterApiUrl('mainnet-beta'), 'confirmed');
+    setConnection(newConnection);
+  }, []);
+
+  const handleLogin = async () => {
+    try {
+      // Log in using Privy
+      await login();
+      // After successful login, route to the next page
+      router.push('/home');
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   return (
@@ -89,6 +108,7 @@ const Hero = () => {
           className="relative mx-auto w-full max-w-[1200px] will-change-transform"
         >
           <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-2xl">
+            {/* Image based on light or dark theme */}
             <div className="relative dark:hidden">
               <Image
                 src="/product.png"
