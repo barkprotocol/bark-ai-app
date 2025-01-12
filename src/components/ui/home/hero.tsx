@@ -30,7 +30,7 @@ const Hero = () => {
     <section
       className="relative pt-[5.75rem] bg-cover bg-center"
       style={{
-        backgroundImage: 'url("https://ucarecdn.com/fcd1f906-c2d5-4c2b-9a57-f068f95cb24e/solanawhite.png")',
+        backgroundImage: 'url("https://ucarecdn.com/039f023e-bd03-4004-9bec-c29afc145f50/barkhead.png")',
       }}
       ref={productRef}
     >

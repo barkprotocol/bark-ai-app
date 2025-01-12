@@ -26,7 +26,7 @@ type BarkUserInterface = Omit<PrivyInterface, 'user' | 'ready'> & {
  */
 function loadFromCache(): BarkUser | null {
   try {
-    const cached = localStorage.getItem('neur-user-data');
+    const cached = localStorage.getItem('bark-user-data');
     if (cached) {
       debugLog('Loading user data from cache', cached, {
         module: 'useUser',
@@ -55,13 +55,13 @@ function loadFromCache(): BarkUser | null {
 function saveToCache(data: BarkUser | null) {
   try {
     if (data) {
-      localStorage.setItem('neur-user-data', JSON.stringify(data));
+      localStorage.setItem('bark-user-data', JSON.stringify(data));
       debugLog('User data saved to cache', data, {
         module: 'useUser',
         level: 'info',
       });
     } else {
-      localStorage.removeItem('neur-user-data');
+      localStorage.removeItem('bark-user-data');
       debugLog('User data removed from cache', null, {
         module: 'useUser',
         level: 'info',

@@ -196,7 +196,7 @@ export const jupiterTools = {
     displayName: '💰 Get Token Price',
     isCollapsible: true,
     description:
-      'Get the current price of any Solana token in USDC, including detailed information like buy/sell prices and confidence level.',
+      'Get the current price of any Solana SPL token in USDC, including detailed information like buy/sell prices and confidence level.',
     parameters: z.object({
       tokenAddress: z.string().describe("The token's mint address"),
       showExtraInfo: z
