@@ -14,6 +14,15 @@ const ProductPreview = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 1]);
 
+  // Image paths
+  const lightModeImage = "/product.png";
+  const darkModeImage = "/product_dark.png";
+
+  if (!lightModeImage || !darkModeImage) {
+    console.error("Image source missing!");
+    return null;
+  }
+
   return (
     <section className="relative w-full py-12">
       <BlurFade delay={0.6} className="mx-auto max-w-screen-2xl px-6">
@@ -39,25 +48,29 @@ const ProductPreview = () => {
             <div className="group relative overflow-hidden rounded-2xl border bg-card shadow-2xl">
               {/* Light mode image */}
               <div className="relative dark:hidden">
-                <Image
-                  src="/product.png"
-                  alt="BARK AI Interface"
-                  width={1200}
-                  height={675}
-                  className="w-full rounded-2xl"
-                  priority
-                />
+                {lightModeImage && (
+                  <Image
+                    src={lightModeImage}
+                    alt="BARK AI Interface in light mode"
+                    width={1200}
+                    height={675}
+                    className="w-full rounded-2xl"
+                    priority
+                  />
+                )}
               </div>
               {/* Dark mode image */}
               <div className="relative hidden dark:block">
-                <Image
-                  src="/product_dark.png"
-                  alt="BARK AI Interface"
-                  width={1200}
-                  height={675}
-                  className="w-full rounded-2xl"
-                  priority
-                />
+                {darkModeImage && (
+                  <Image
+                    src={darkModeImage}
+                    alt="BARK AI Interface in dark mode"
+                    width={1200}
+                    height={675}
+                    className="w-full rounded-2xl"
+                    loading="lazy"
+                  />
+                )}
               </div>
               <BorderBeam
                 className="opacity-0 group-hover:opacity-100"
@@ -67,8 +80,8 @@ const ProductPreview = () => {
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -left-4 -top-4 h-72 w-72 animate-blob rounded-full bg-primary/5 mix-blend-multiply blur-xl" />
-            <div className="animation-delay-2000 absolute -right-4 -top-4 h-72 w-72 animate-blob rounded-full bg-secondary/5 mix-blend-multiply blur-xl" />
+            <div className="absolute -left-4 -top-4 h-72 w-72 blob rounded-full bg-primary/5 mix-blend-multiply blur-xl" />
+            <div className="animation-delay-2000 absolute -right-4 -top-4 h-72 w-72 blob rounded-full bg-secondary/5 mix-blend-multiply blur-xl" />
           </motion.div>
         </div>
       </BlurFade>

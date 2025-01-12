@@ -22,8 +22,8 @@ const features = [
       <div className="absolute inset-0 flex items-center justify-center opacity-20">
         <div className="relative h-full w-full">
           <div className="absolute left-10 top-10 h-32 w-32 animate-blob rounded-full bg-primary/30 mix-blend-multiply blur-xl"></div>
-          <div className="animation-delay-2000 absolute right-10 top-10 h-32 w-32 animate-blob rounded-full bg-secondary/30 mix-blend-multiply blur-xl"></div>
-          <div className="animation-delay-4000 absolute bottom-10 left-20 h-32 w-32 animate-blob rounded-full bg-accent/30 mix-blend-multiply blur-xl"></div>
+          <div className="absolute right-10 top-10 h-32 w-32 animate-blob animation-delay-2000 rounded-full bg-secondary/30 mix-blend-multiply blur-xl"></div>
+          <div className="absolute bottom-10 left-20 h-32 w-32 animate-blob animation-delay-4000 rounded-full bg-accent/30 mix-blend-multiply blur-xl"></div>
         </div>
       </div>
     ),
@@ -93,7 +93,10 @@ const Features = () => {
               )}
             >
               <div className="relative h-32 w-32 mb-4">
-                <feature.Icon className="w-full h-full text-[#DBCFC7]" />
+                <feature.Icon
+                  className="w-full h-full text-[#DBCFC7]"
+                  aria-label={feature.name} // Added aria-label for better accessibility
+                />
               </div>
               <h3 className="text-lg font-semibold">{feature.name}</h3>
               <p className="text-sm text-muted-foreground">{feature.description}</p>
@@ -109,4 +112,3 @@ const Features = () => {
 };
 
 export default Features;
-

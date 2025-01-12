@@ -13,16 +13,31 @@ export const metadata: Metadata = {
 
 export default function AccountPage() {
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex flex-col min-h-screen overflow-hidden">
       {/* Page header */}
-      <div className="border-b border-sidebar-accent bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex h-14 w-full items-center px-8">
-          <h1 className="text-lg font-medium">Account</h1>
+      <header className="border-b border-sidebar-accent bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-16 items-center justify-between px-8 md:px-12">
+          <h1 className="text-xl font-medium text-primary">Account</h1>
+          <nav className="flex space-x-6 text-sm text-muted">
+            <a href="/settings" className="hover:text-primary">
+              Settings
+            </a>
+            <a href="/notifications" className="hover:text-primary">
+              Notifications
+            </a>
+          </nav>
         </div>
-      </div>
+      </header>
 
       {/* Page content */}
-      <AccountContent />
+      <main className="flex-1 px-8 py-6 bg-background/60 sm:px-12 lg:px-16">
+        <AccountContent />
+      </main>
+
+      {/* Optional Footer */}
+      <footer className="bg-background py-4 text-center text-sm text-muted">
+        <p>© 2025 BARK Protocol. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

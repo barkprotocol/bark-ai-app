@@ -50,16 +50,20 @@ export default function FaqPage() {
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <div className="flex flex-1 flex-col py-8">
-        <div className="w-full px-8">
-          <h1 className="text-lg font-medium">FAQ</h1>
+        <div className="w-full px-8 mb-6">
+          <h1 className="text-2xl font-medium text-primary">FAQ</h1>
         </div>
       </div>
 
       <Accordion type="single" collapsible className="mx-8">
         {faqItems.map((item) => (
           <AccordionItem key={item.id} value={item.id}>
-            <AccordionTrigger>{item.question}</AccordionTrigger>
-            <AccordionContent>{item.answer}</AccordionContent>
+            <AccordionTrigger className="py-4 px-6 bg-background hover:bg-accent rounded-md transition-colors">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent className="py-4 px-6 bg-background/60 text-secondary">
+              {item.answer}
+            </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>

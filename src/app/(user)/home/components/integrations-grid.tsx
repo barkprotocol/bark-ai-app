@@ -10,11 +10,13 @@ export function IntegrationsGrid() {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {INTEGRATIONS.map((item) => (
+      {INTEGRATIONS.map((item, index) => (
         <IntegrationCard
           key={item.label}
           item={item}
-          onClick={() => handleIntegrationClick(item.label)} index={0}        />
+          onClick={() => handleIntegrationClick(item.label)}
+          index={index}
+        />
       ))}
     </div>
   );
