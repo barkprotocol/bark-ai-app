@@ -111,7 +111,7 @@ const Hero = () => {
             {/* Image based on light or dark theme */}
             <div className="relative dark:hidden">
               <Image
-                src="/product.png"
+                src="/product.png" // Ensure this path is valid
                 alt="BARK AI Interface showcasing AI-driven insights and actions for the Solana blockchain in a light theme"
                 layout="responsive"
                 width={1200}
