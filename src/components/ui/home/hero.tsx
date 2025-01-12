@@ -1,5 +1,3 @@
-'use client';
-
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -111,9 +109,8 @@ const Hero = () => {
             {/* Image based on light or dark theme */}
             <div className="relative dark:hidden">
               <Image
-                src="/product.png" // Ensure this path is valid
+                src="/product.png"
                 alt="BARK AI Interface showcasing AI-driven insights and actions for the Solana blockchain in a light theme"
-                layout="responsive"
                 width={1200}
                 height={675}
                 className="w-full rounded-2xl"
@@ -124,7 +121,6 @@ const Hero = () => {
               <Image
                 src="/product_dark.png"
                 alt="BARK AI Interface showcasing AI-driven insights and actions for the Solana blockchain in a dark theme"
-                layout="responsive"
                 width={1200}
                 height={675}
                 className="w-full rounded-2xl"

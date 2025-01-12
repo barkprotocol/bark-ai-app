@@ -16,6 +16,11 @@ export const SUGGESTIONS: Suggestion[] = [
     subtitle: 'using Jupiter to swap on Solana',
   },
   {
+    id: 'swap-sol-bark',
+    title: 'Swap 0.5 SOL for BARK',
+    subtitle: 'using Jupiter to swap on Solana',
+  },
+  {
     id: 'solana-trends',
     title: "What's trending on Solana?",
     subtitle: 'find the current market trends',
