@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -5,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import AnimatedShinyText from '@/components/ui/animated-shiny-text';
 import BlurFade from '@/components/ui/blur-fade';
 import { BorderBeam } from '@/components/ui/border-beam';
-import { usePrivy } from '@privy-io/react-auth';
+import { usePrivy, useWallets } from '@privy-io/react-auth';
 import { Connection, clusterApiUrl } from '@solana/web3.js';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Hero = () => {
   const productRef = useRef<HTMLDivElement>(null);
@@ -20,42 +23,43 @@ const Hero = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 1]);
 
-  const { login } = usePrivy();
+  const { login, ready, authenticated } = usePrivy();
+  const { wallets } = useWallets();
   const router = useRouter();
   const [connection, setConnection] = useState<Connection | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
     const initializeConnection = async () => {
       try {
-        // Initialize Solana connection
         const solanaRpcUrl = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('mainnet-beta');
-        console.log('Solana RPC URL:', solanaRpcUrl); // Log the URL
         const newConnection = new Connection(solanaRpcUrl, 'confirmed');
-        
-        // Verify connection
         await newConnection.getVersion();
         setConnection(newConnection);
-        console.log('Solana connection established');
       } catch (error) {
         console.error('Error establishing Solana connection:', error);
+        toast.error('Failed to connect to Solana network');
       }
     };
 
     initializeConnection();
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      // Log in using Privy
-      console.log('Attempting login...'); // Debug log
-      await login();
-      console.log('Login successful');
-      
-      // After successful login, route to the next page
-      console.log('Routing to /home...');
+  useEffect(() => {
+    if (ready && authenticated) {
       router.push('/home');
+    }
+  }, [ready, authenticated, router]);
+
+  const handleLogin = async () => {
+    setIsLoggingIn(true);
+    try {
+      await login();
     } catch (error) {
       console.error('Login failed:', error);
+      toast.error('Login failed. Please try again.');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -64,6 +68,7 @@ const Hero = () => {
       className="relative pt-[5.75rem] bg-cover bg-center"
       style={{
         backgroundImage: 'url("https://ucarecdn.com/039f023e-bd03-4004-9bec-c29afc145f50/barkhead.png")',
+        backgroundColor: 'var(--gray-100)',
       }}
       ref={productRef}
     >
@@ -76,7 +81,7 @@ const Hero = () => {
               </span>
             </div>
 
-            <h1 className="mt-6 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-5xl font-bold text-gray-800 tracking-tight md:text-5xl lg:text-6xl">
               The{' '}
               <AnimatedShinyText className="inline">
                 <span>Intelligent Copilot</span>
@@ -96,8 +101,9 @@ const Hero = () => {
                 onClick={handleLogin}
                 className="h-12 min-w-[180px] text-base transition-all duration-300 hover:scale-105"
                 aria-label="Get started with BARK AI Agent"
+                disabled={!ready || isLoggingIn}
               >
-                Getting Started
+                {isLoggingIn ? 'Connecting...' : 'Getting Started'}
               </Button>
             </div>
           </BlurFade>

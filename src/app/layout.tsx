@@ -60,6 +60,23 @@ export default function RootLayout({
           </ThemeProvider>
         </AuthProviders>
 
+        {/* Footer Section */}
+        <footer className="bg-primary text-primary-foreground py-4 mt-8">
+          <div className="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-center text-gray-200 md:text-left">
+              <p>&copy; {new Date().getFullYear()} BARK Protocol. All rights reserved.</p>
+            </div>
+            <div className="flex space-x-4 mt-2 md:mt-0">
+              <a href="/terms" className="text-gray-400 hover:text-accent">
+                Terms of Use
+              </a>
+              <a href="/privacy" className="text-gray-400 hover:text-accent">
+                Privacy Policy
+              </a>
+            </div>
+          </div>
+        </footer>
+
         {/* Load Analytics and Speed Insights only on production */}
         {process.env.NODE_ENV === 'production' && (
           <>
