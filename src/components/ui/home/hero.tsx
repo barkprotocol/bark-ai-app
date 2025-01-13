@@ -23,7 +23,7 @@ const Hero = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.6, 1]);
 
-  const { login, ready, authenticated } = usePrivy();
+  const { login, ready, authenticated, connectWallet } = usePrivy();
   const { wallets } = useWallets();
   const router = useRouter();
   const [connection, setConnection] = useState<Connection | null>(null);
@@ -38,7 +38,7 @@ const Hero = () => {
         setConnection(newConnection);
       } catch (error) {
         console.error('Error establishing Solana connection:', error);
-        toast.error('Failed to connect to Solana network');
+        toast.error('Failed to connect to Solana network. Please check your internet connection and try again.');
       }
     };
 
@@ -51,13 +51,24 @@ const Hero = () => {
     }
   }, [ready, authenticated, router]);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     setIsLoggingIn(true);
     try {
-      await login();
+      if (wallets.length > 0) {
+        // If there are connected wallets, use them
+        await connectWallet(wallets[0].address);
+      } else {
+        // Otherwise, use the default login flow
+        await login();
+      }
     } catch (error) {
       console.error('Login failed:', error);
-      toast.error('Login failed. Please try again.');
+      if (error instanceof Error) {
+        toast.error(`Login failed: ${error.message}. Please try again.`);
+      } else {
+        toast.error('Login failed. Please try connecting again.');
+      }
     } finally {
       setIsLoggingIn(false);
     }
@@ -81,7 +92,7 @@ const Hero = () => {
               </span>
             </div>
 
-            <h1 className="mt-6 text-5xl font-bold text-gray-800 tracking-tight md:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-5xl font-bold text-[#c4b1a5] tracking-tight md:text-5xl lg:text-6xl">
               The{' '}
               <AnimatedShinyText className="inline">
                 <span>Intelligent Copilot</span>
@@ -89,7 +100,7 @@ const Hero = () => {
               for <span>Solana</span>
             </h1>
 
-            <p className="mt-4 text-lg text-muted-foreground">
+            <p className="mt-4 text-lg text-gray-600-foreground">
               Enhance your Solana experience with AI-driven insights and
               automated actions.
             </p>
